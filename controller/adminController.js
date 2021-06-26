@@ -1,5 +1,22 @@
 const mongoose = require("mongoose");
 const Admin = require("../models/Admin");
+const Doctor = require("../models/Doctor");
+
+exports.addDoc = (req, res) => {
+  let { name, email, password, specialization } = req.body;
+  let doctor = new Doctor({ name, email, password, specialization });
+
+  doctor
+    .save()
+    .then(() => {
+      console.info(`New doctor assigned: ${doctor.name}`);
+      return res.status(200).send(`New doctor assigned: ${doctor.name}`);
+    })
+    .catch((error) => {
+      console.error("Error creating doctor\n", error);
+      return res.status(500).send("Error creating doctor");
+    })
+};
 
 exports.login = (req, res) => {
   let { email, password } = req.body;
