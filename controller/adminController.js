@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Admin = require("../models/Admin");
 const Doctor = require("../models/Doctor");
+const Appointment = require("../models/Appointment");
 
 exports.addDoc = (req, res) => {
   let { name, email, password, specialization } = req.body;
@@ -15,7 +16,43 @@ exports.addDoc = (req, res) => {
     .catch((error) => {
       console.error("Error creating doctor\n", error);
       return res.status(500).send("Error creating doctor");
+    });
+};
+
+exports.assignDoc = (req, res) => {
+  let id = mongoose.Types.ObjectId(req.params.id);
+  let { did } = req.body;
+  did = mongoose.Types.ObjectId(did);
+
+  // assign a valid doctor
+  Doctor.findOne({ _id: did })
+    .then((record) => {
+      if (record) {
+        // if doctor with 'did' exists, then assign it to appointment with id 'id'
+        Appointment.updateOne({ _id: id, }, { $set: {did: did} })
+          .then((updateResult) => {
+            if ( updateResult.nModified >= 0 && updateResult.n >= 1 && updateResult.ok >= 1) {
+              console.info(`Doctor: ${did} assigned to appointment: ${id}`);
+              return res.status(200).send(`Doctor: ${did} assigned to appointment: ${id}`);
+            }
+            console.warn(`No appointment with id: ${id}`);
+            return res.status(404).send(`No appointment with id: ${id}`);
+          })
+          .catch((error) => {
+            console.error("Error querying database", error);
+            return res.status(500).send("Error querying database");
+          });
+      }
+      else {
+        // doctor with 'did' does not exist.
+        console.warn(`Doctor ${did} does not exist. Assign a valid doctor`);
+        return res.status(401).send(`Doctor ${did} does not exist. Assign a valid doctor`);
+      }
     })
+    .catch((error) => {
+      console.error("Error querying database for doctor\n", error);
+      return res.status(500).send("Error querying database for doctor");
+    });
 };
 
 exports.login = (req, res) => {
