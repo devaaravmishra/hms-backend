@@ -6,6 +6,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const adminRoute = require("./routes/adminRoute");
+const userRoute = require("./routes/userRoute");
 
 const PORT = 7000;
 const DBPORT = 27017;
@@ -27,3 +28,4 @@ app.listen(PORT, () => {
 });
 
 app.use("/admin", adminRoute);
+app.use("/user", userRoute);
