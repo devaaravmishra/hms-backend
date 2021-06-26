@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Patient = require("../models/Patient");
+const Appointmanet = require("../models/Appointment");
 
 exports.login = (req, res) => {
   let { email, password } = req.body;
@@ -17,6 +18,22 @@ exports.login = (req, res) => {
       console.error(error);
       return res.send(500).send("Error querying database");
     });
+};
+
+exports.makeApt = (req, res) => {
+  let { pid, date, slot } = req.body;
+  pid = mongoose.Types.ObjectId(pid);
+  appointment = new Appointmanet({ pid, date, slot});
+
+  appointment.save()
+    .then(() => {
+      console.info(`New appointment created: ${pid}`);
+      return res.status(200).send(`New user appointment: ${pid}`);
+    })
+    .catch((error) => {
+      console.error("Error creating appointment\n", error);
+      return res.status(500).send("Error creating appointment");
+    })
 };
 
 exports.signup = (req, res) => {
