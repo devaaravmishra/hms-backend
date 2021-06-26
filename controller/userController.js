@@ -1,6 +1,26 @@
 const mongoose = require("mongoose");
 const Patient = require("../models/Patient");
-const Appointmanet = require("../models/Appointment");
+const Appointment = require("../models/Appointment");
+
+exports.getApt = (req, res) => {
+  let { userId } = req.params;
+  userId = mongoose.Types.ObjectId(userId);
+
+  Appointment.find({ pid: userId })
+    .then((apts) => {
+      if (apts.length === 0) {
+        console.info(`No appointments of user: ${userId}`);
+        return res.status(404).send([]);
+      }
+
+      console.info(`All appointments found of user: ${userId}`);
+      return res.status(200).send(apts);
+    })
+    .catch((error) => {
+      console.error(`Error querying database\n`, error);
+      return res.status(500).send("Error querying database");
+    });
+};
 
 exports.login = (req, res) => {
   let { email, password } = req.body;
@@ -15,7 +35,7 @@ exports.login = (req, res) => {
       return res.status(404).send("Wrong username or password");
     })
     .catch((error) => {
-      console.error(error);
+      console.error("Error querying database\n", error);
       return res.send(500).send("Error querying database");
     });
 };
@@ -23,12 +43,12 @@ exports.login = (req, res) => {
 exports.makeApt = (req, res) => {
   let { pid, date, slot } = req.body;
   pid = mongoose.Types.ObjectId(pid);
-  appointment = new Appointmanet({ pid, date, slot});
+  appointment = new Appointment({ pid, date, slot});
 
   appointment.save()
     .then(() => {
       console.info(`New appointment created: ${pid}`);
-      return res.status(200).send(`New user appointment: ${pid}`);
+      return res.status(200).send(`New appointment created: ${pid}`);
     })
     .catch((error) => {
       console.error("Error creating appointment\n", error);
