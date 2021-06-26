@@ -5,6 +5,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const adminRoute = require("./routes/adminRoute");
+
 const PORT = 7000;
 const DBPORT = 27017;
 
@@ -23,3 +25,5 @@ mongoose
 app.listen(PORT, () => {
   console.info(`Server is running on PORT: ${PORT}`);
 });
+
+app.use("/admin", adminRoute);
