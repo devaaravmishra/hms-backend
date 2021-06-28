@@ -25,14 +25,15 @@ exports.getApt = (req, res) => {
 exports.login = (req, res) => {
   let { email, password } = req.body;
 
-  Patient.findOne({ email: email, password: password })
-    .then((record) => {
-      if (record) {
+  Patient.findOne({ email: email })
+    .then((user) => {
+      console.info(`User ${email} found`);
+      if (password === user.password) {
         console.info(`Welcome back, ${email}`);
-        return res.status(200).send(`Welcome back, ${email}`);
+        return res.status(200).send({ user });
       }
-      console.warn("Wrong username or password");
-      return res.status(404).send("Wrong username or password");
+      console.warn("Incorrect password");
+      return res.status(401).send("Incorrect password");
     })
     .catch((error) => {
       console.error("Error querying database\n", error);
