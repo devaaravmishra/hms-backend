@@ -59,13 +59,13 @@ exports.makeApt = (req, res) => {
 
 exports.signup = (req, res) => {
   let { name, email, password, age } = req.body;
-  let patient = new Patient({ name, email, password, age });
+  let user = new Patient({ name, email, password, age });
 
-  patient
+  user
     .save()
     .then(() => {
       console.info(`New user created: ${name}`);
-      return res.status(200).send(`New user created: ${name}`);
+      return res.status(200).send({ user });
     })
     .catch((error) => {
       console.error("Error creating user\n", error);
