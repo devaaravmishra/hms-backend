@@ -46,15 +46,27 @@ exports.makeApt = (req, res) => {
   pid = mongoose.Types.ObjectId(pid);
   appointment = new Appointment({ pid, date, slot});
 
-  appointment.save()
-    .then(() => {
-      console.info(`New appointment created: ${pid}`);
-      return res.status(200).send(`New appointment created: ${pid}`);
+  Patient.findOne({ _id: pid })
+    .then((user) => {
+      if (user) {
+        appointment.save()
+          .then(() => {
+            console.info(`New appointment created for patient ${pid}`);
+            return res.status(200).send(`New appointment created for patient ${pid}`);
+          })
+          .catch((error) => {
+            console.error("Error creating appointment\n", error);
+            return res.status(500).send("Error creating appointment");
+          });
+      }
+      else {
+        console.warn(`User ${pid} does not exists`);
+        return res.status(401).send(`User ${pid} does not exists`);
+      }
     })
     .catch((error) => {
-      console.error("Error creating appointment\n", error);
-      return res.status(500).send("Error creating appointment");
-    })
+      console.error(`Can't find user ${pid}`, error);
+    });
 };
 
 exports.signup = (req, res) => {
