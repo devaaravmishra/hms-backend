@@ -30,8 +30,8 @@ mongoose
 app.use("/admin", adminRoute);
 app.use("/user", userRoute);
 
-app.post("/", (req, res) => {
-  res.send(200).send("Hello World!")
-})
+app.use("/", (req, res) => {
+  res.status(200).send("Hello World!");
+});
 
 module.exports = app;
