@@ -1,6 +1,6 @@
 const app = require("./app")
 
-const PORT = 7000;
+const {PORT} = process.env
 
 app.listen(PORT, () => {
     console.info(`Server is running on PORT: ${PORT}`);

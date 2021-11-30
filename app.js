@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -10,7 +11,7 @@ app.use(cors());
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
-const {MONGO_URI} = process.env;
+const { MONGO_URI } = process.env;
 
 mongoose
   .connect(MONGO_URI, {
