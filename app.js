@@ -10,24 +10,23 @@ app.use(cors());
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
-const PORT = 7000;
-const DBPORT = 27017;
+const {MONGO_URI} = process.env;
 
 mongoose
-  .connect(`mongodb://localhost:${DBPORT}/hms`, {
+  .connect(MONGO_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
   .then(() => {
-    console.info(`Connected to database at PORT: ${DBPORT}`);
+    console.info(`Connected to database`);
   })
   .catch(() => {
-    console.error(`Error connecting to database at PORT: ${DBPORT}`);
+    console.error(`Error connecting to database`);
   });
 
-app.listen(PORT, () => {
-  console.info(`Server is running on PORT: ${PORT}`);
-});
+
 
 app.use("/admin", adminRoute);
 app.use("/user", userRoute);
+
+module.exports = app;
