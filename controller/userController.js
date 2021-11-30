@@ -84,3 +84,11 @@ exports.signup = (req, res) => {
       return res.status(500).send("Error creating user");
     });
 };
+
+exports.view = (req, res) => {
+  Patient.find().then((users) => {
+    res.status(200).send({users})
+  }).catch((error) => {
+    res.status(404).send("No users found!")
+  })
+}
