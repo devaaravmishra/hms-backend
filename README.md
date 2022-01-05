@@ -7,7 +7,7 @@
 
 ## Running the server
 ```bash
-git clone https://github.com/jiteshp13/hms-backend.git
+git clone https://github.com/Aarav619/hms-backend.git
 cd hms-backend && npm i && node app.js
 ```
 
