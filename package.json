@@ -12,21 +12,21 @@
 	"description": "Backend for Hospital Management System",
 	"main": "index.js",
 	"devDependencies": {
-		"nodemon": "^2.0.15"
+		"nodemon": "^2.0.22"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"dev": "nodemon"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jiteshp13/hms-backend.git"
+		"url": "git+https://github.com/aaaravv/hms-backend.git"
 	},
 	"author": "",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/jiteshp13/hms-backend/issues"
+		"url": "https://github.com/aaaravv/hms-backend/issues"
 	},
-	"homepage": "https://github.com/jiteshp13/hms-backend#readme"
+	"homepage": "https://github.com/aaaravv/hms-backend#readme"
 }

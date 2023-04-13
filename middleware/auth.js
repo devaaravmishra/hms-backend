@@ -14,10 +14,10 @@ exports.verifyToken = (req, res, next) => {
 	});
 };
 
-exports.generateToken = (req, res) => {
+exports.generateToken = (req, res, next) => {
 	const accessToken = generateAccessToken(req.user);
-	res.json({ accessToken: accessToken });
-	console.info(`Welcome back, ${req.user.email}`);
+	req.accessToken = accessToken;
+	next();
 };
 
 const generateAccessToken = (user) => {

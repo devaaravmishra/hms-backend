@@ -11,7 +11,7 @@ app.use(cors());
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
-const MONGO_URI = process.env.MONGO_URI;
+const { MONGO_URI } = process.env;
 
 mongoose
 	.connect(MONGO_URI, {
